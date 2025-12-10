@@ -77,7 +77,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(30, 107);
+            label2.Location = new Point(34, 108);
             label2.Name = "label2";
             label2.Size = new Size(90, 23);
             label2.TabIndex = 1;
@@ -87,7 +87,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(30, 160);
+            label3.Location = new Point(39, 160);
             label3.Name = "label3";
             label3.Size = new Size(80, 23);
             label3.TabIndex = 2;
@@ -96,9 +96,10 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(40, 219);
+            label4.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(45, 326);
             label4.Name = "label4";
-            label4.Size = new Size(61, 25);
+            label4.Size = new Size(74, 23);
             label4.TabIndex = 3;
             label4.Text = "DPTO:";
             // 
@@ -106,7 +107,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(42, 280);
+            label5.Location = new Point(40, 385);
             label5.Name = "label5";
             label5.Size = new Size(71, 23);
             label5.TabIndex = 4;
@@ -115,7 +116,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(473, 104);
+            label6.Location = new Point(452, 98);
             label6.Name = "label6";
             label6.Size = new Size(74, 25);
             label6.TabIndex = 5;
@@ -124,7 +125,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(473, 176);
+            label7.Location = new Point(452, 157);
             label7.Name = "label7";
             label7.Size = new Size(76, 25);
             label7.TabIndex = 6;
@@ -133,7 +134,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(488, 240);
+            label8.Location = new Point(468, 209);
             label8.Name = "label8";
             label8.Size = new Size(58, 25);
             label8.TabIndex = 7;
@@ -144,7 +145,7 @@
             textNombre.Location = new Point(135, 104);
             textNombre.Name = "textNombre";
             textNombre.PlaceholderText = "NOMBRE COMPLETO";
-            textNombre.Size = new Size(199, 31);
+            textNombre.Size = new Size(228, 31);
             textNombre.TabIndex = 9;
             // 
             // textCedula
@@ -152,41 +153,41 @@
             textCedula.Location = new Point(135, 160);
             textCedula.Name = "textCedula";
             textCedula.PlaceholderText = "CEDULA";
-            textCedula.Size = new Size(150, 31);
+            textCedula.Size = new Size(228, 31);
             textCedula.TabIndex = 10;
             // 
             // textSalario
             // 
-            textSalario.Location = new Point(573, 101);
+            textSalario.Location = new Point(532, 98);
             textSalario.Name = "textSalario";
             textSalario.PlaceholderText = "$$$$$$$$";
-            textSalario.Size = new Size(150, 31);
+            textSalario.Size = new Size(165, 31);
             textSalario.TabIndex = 12;
             // 
             // textUsuario
             // 
-            textUsuario.Location = new Point(585, 173);
+            textUsuario.Location = new Point(534, 157);
             textUsuario.Name = "textUsuario";
             textUsuario.PlaceholderText = "USUARIO";
-            textUsuario.Size = new Size(150, 31);
+            textUsuario.Size = new Size(163, 31);
             textUsuario.TabIndex = 13;
             // 
             // textClave
             // 
-            textClave.Location = new Point(585, 240);
+            textClave.Location = new Point(532, 209);
             textClave.Name = "textClave";
             textClave.PlaceholderText = "CLAVE";
-            textClave.Size = new Size(150, 31);
+            textClave.Size = new Size(165, 31);
             textClave.TabIndex = 14;
             // 
             // comboDepartamento
             // 
             comboDepartamento.DropDownStyle = ComboBoxStyle.DropDownList;
             comboDepartamento.FormattingEnabled = true;
-            comboDepartamento.Items.AddRange(new object[] { "Medicina Interna", "Pediatría", "Ginecología y Obstetricia", "Cardiología", "Neumología", "Gastroenterología", "Dermatología", "Neurología", "Endocrinología", "Reumatología", "Psiquiatría", "Oftalmología", "Otorrinolaringología", "Urología", "Nefrología", "Oncología", "Hematología", "Infectología" });
-            comboDepartamento.Location = new Point(135, 216);
+            comboDepartamento.Items.AddRange(new object[] { "Administración General", "Recursos Humanos", "Finanzas / Contabilidad", "Compras y Suministros", "Archivo Clínico", "Gestión de Calidad", "Planificación y Desarrollo", "Servicios Generales", "Tecnología de la Información (TI)", "Facturación y Cobros", "Atención al Usuario", "Gestión de Riesgos", "Logística", "Mantenimiento", "Seguridad", "Relaciones Públicas" });
+            comboDepartamento.Location = new Point(134, 326);
             comboDepartamento.Name = "comboDepartamento";
-            comboDepartamento.Size = new Size(182, 33);
+            comboDepartamento.Size = new Size(230, 33);
             comboDepartamento.TabIndex = 15;
             // 
             // combocargo
@@ -194,16 +195,18 @@
             combocargo.DropDownStyle = ComboBoxStyle.DropDownList;
             combocargo.FormattingEnabled = true;
             combocargo.Items.AddRange(new object[] { "Administrador General", "Subadministrador", "Director de Recursos Humanos", "Analista de Recursos Humanos", "Gerente Financiero", "Contador", "Auxiliar Contable", "Encargado de Compras", "Auxiliar de Compras", "Jefe de Archivo Clínico", "Técnico de Archivo", "Coordinador de Calidad", "Analista de Calidad", "Encargado de Servicios Generales", "Supervisor de Limpieza", "Especialista en Facturación", "Cajero", "Analista de Cobros", "Recepcionista", "Servicio al Cliente", "Coordinador de Logística", "Técnico de Mantenimiento", "Encargado de Seguridad", "Relacionista Público", "Soporte Técnico", "Administrador de Sistemas" });
-            combocargo.Location = new Point(135, 280);
+            combocargo.Location = new Point(135, 385);
             combocargo.Name = "combocargo";
-            combocargo.Size = new Size(182, 33);
+            combocargo.Size = new Size(230, 33);
             combocargo.TabIndex = 16;
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(298, 482);
+            btnGuardar.FlatStyle = FlatStyle.System;
+            btnGuardar.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnGuardar.Location = new Point(286, 472);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(112, 34);
+            btnGuardar.Size = new Size(128, 34);
             btnGuardar.TabIndex = 17;
             btnGuardar.Text = "GUARDAR";
             btnGuardar.UseVisualStyleBackColor = true;
@@ -211,7 +214,9 @@
             // 
             // btnSalir
             // 
-            btnSalir.Location = new Point(434, 482);
+            btnSalir.FlatStyle = FlatStyle.System;
+            btnSalir.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnSalir.Location = new Point(452, 472);
             btnSalir.Name = "btnSalir";
             btnSalir.Size = new Size(112, 34);
             btnSalir.TabIndex = 18;
@@ -222,35 +227,37 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(47, 339);
+            label9.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.Location = new Point(25, 209);
             label9.Name = "label9";
-            label9.Size = new Size(83, 25);
+            label9.Size = new Size(94, 23);
             label9.TabIndex = 19;
             label9.Text = "Telefono:";
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(56, 407);
+            label10.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Location = new Point(48, 261);
             label10.Name = "label10";
-            label10.Size = new Size(58, 25);
+            label10.Size = new Size(71, 23);
             label10.TabIndex = 20;
             label10.Text = "Email:";
             // 
             // textTelefono
             // 
-            textTelefono.Location = new Point(136, 336);
+            textTelefono.Location = new Point(135, 209);
             textTelefono.Name = "textTelefono";
             textTelefono.PlaceholderText = "TELEFONO";
-            textTelefono.Size = new Size(181, 31);
+            textTelefono.Size = new Size(229, 31);
             textTelefono.TabIndex = 21;
             // 
             // textEmail
             // 
-            textEmail.Location = new Point(160, 402);
+            textEmail.Location = new Point(134, 261);
             textEmail.Name = "textEmail";
             textEmail.PlaceholderText = "EMAIL";
-            textEmail.Size = new Size(150, 31);
+            textEmail.Size = new Size(229, 31);
             textEmail.TabIndex = 22;
             // 
             // formPersonalAdministrativo

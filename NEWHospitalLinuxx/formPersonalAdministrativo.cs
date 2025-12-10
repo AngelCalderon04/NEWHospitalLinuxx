@@ -19,40 +19,49 @@ namespace CapaPresentacion
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
-        {// 1. VALIDACIONES
+        {
+            // TODO: validamos que no haya vacios
             if (string.IsNullOrWhiteSpace(textNombre.Text) ||
                 string.IsNullOrWhiteSpace(textCedula.Text) ||
-                string.IsNullOrWhiteSpace(combocargo.Text) ||
-                string.IsNullOrWhiteSpace(comboDepartamento.Text) ||
+                string.IsNullOrWhiteSpace(textSalario.Text) ||
                 string.IsNullOrWhiteSpace(textUsuario.Text) ||
                 string.IsNullOrWhiteSpace(textClave.Text))
             {
-                MessageBox.Show("Por favor, llene los campos obligatorios.", "Faltan Datos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Llene los campos obligatorios.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // TODO: convertimos el texto del salario a numero
+            decimal salarioIngresado;
+            if (!decimal.TryParse(textSalario.Text, out salarioIngresado))
+            {
+                MessageBox.Show("El salario debe ser un numero valido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             try
             {
-                // 2. LLAMADA A LA CAPA DE DATOS
                 CD_PersonalAdministrativo objetoAdmin = new CD_PersonalAdministrativo();
 
+                // TODO: aqui estaba el error, asegurate de enviar los 9 datos en este orden
                 objetoAdmin.RegistrarPersonal(
-                    textNombre.Text.Trim(),
-                    textCedula.Text.Trim(),
-                    textTelefono.Text.Trim(),   // <--- AQUÍ AGREGAMOS EL TELÉFONO
-                    textEmail.Text.Trim(),      // <--- AQUÍ AGREGAMOS EL EMAIL
-                    comboDepartamento.Text,
-                    combocargo.Text,
-                    textUsuario.Text.Trim(),
-                    textClave.Text.Trim()
+                    textNombre.Text.Trim(),      // 1. nombre
+                    textCedula.Text.Trim(),      // 2. cedula
+                    textTelefono.Text.Trim(),    // 3. telefono
+                    textEmail.Text.Trim(),       // 4. email
+                    comboDepartamento.Text,       // 5. departamento
+                    combocargo.Text,              // 6. cargo
+                    salarioIngresado,           // 7. salario (decimal)
+                    textUsuario.Text.Trim(),     // 8. usuario
+                    textClave.Text.Trim()        // 9. clave (esta era la que faltaba)
                 );
 
-                MessageBox.Show("¡Personal registrado correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //LimpiarCampos();
+                MessageBox.Show("Personal registrado correctamente.", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LimpiarCampos();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No se pudo registrar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
 
@@ -60,8 +69,8 @@ namespace CapaPresentacion
         {
             textNombre.Clear();
             textCedula.Clear();
-            textTelefono.Clear(); // <--- Limpiar Teléfono
-            textEmail.Clear();    // <--- Limpiar Email
+            textTelefono.Clear();
+            textEmail.Clear();    
             textUsuario.Clear();
             textClave.Clear();
 

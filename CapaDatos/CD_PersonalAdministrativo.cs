@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Data;
-using Microsoft.Data.SqlClient; // Usamos el conector moderno para .NET 8
-
+using Microsoft.Data.SqlClient; 
 namespace CapaDatos
 {
     public class CD_PersonalAdministrativo
     {
         private ConexionDatos conexion = new ConexionDatos();
 
-        public void RegistrarPersonal(string nombre, string cedula, string telefono, string email, string departamento, string cargo, string usuario, string clave)
+        // TODO: metodo para guardar administrativo completo
+        public void RegistrarPersonal(string nombre, string cedula, string telefono, string email, string departamento, string cargo, decimal salario, string usuario, string clave)
         {
             using (SqlConnection conn = conexion.ObtenerConexion())
             {
                 conn.Open();
 
-                // INICIAMOS UNA TRANSACCIÓN (Para que se guarden las 3 cosas o ninguna)
+                // TODO: iniciamos una transaccion para guardar todo junto o nada
                 SqlTransaction transaction = conn.BeginTransaction();
 
                 try
                 {
-                    // -----------------------------------------------------------------
-                    // PASO 1: INSERTAR EN LA TABLA "PERSONAS" (El Humano)
-                    // -----------------------------------------------------------------
+                    
+                    // TODO:  insertar en tabla personas el humano
+                   
                     string sqlPersona = @"INSERT INTO Personas (Nombre, Cedula, Telefono, Email, Rol) 
                                           VALUES (@Nom, @Ced, @Tel, @Email, 'Administrativo'); 
-                                          SELECT SCOPE_IDENTITY();"; // Esto nos devuelve el ID nuevo
+                                          SELECT SCOPE_IDENTITY();";
 
                     SqlCommand cmdPersona = new SqlCommand(sqlPersona, conn, transaction);
                     cmdPersona.Parameters.AddWithValue("@Nom", nombre);
@@ -32,27 +32,26 @@ namespace CapaDatos
                     cmdPersona.Parameters.AddWithValue("@Tel", telefono);
                     cmdPersona.Parameters.AddWithValue("@Email", email);
 
-                    // Ejecutamos y guardamos el ID del nuevo humano
+                    // TODO: guardamos el id que se creo
                     int idPersonaGenerado = Convert.ToInt32(cmdPersona.ExecuteScalar());
 
 
-                    // -----------------------------------------------------------------
-                    // PASO 2: INSERTAR EN "PERSONAL ADMINISTRATIVO" (El Empleado)
-                    // -----------------------------------------------------------------
-                    // Nota: Como tu formulario no pide Salario, pondremos 0 por defecto para que no falle.
+             
+                    // TODO:  insertar datos del empleado con su salario
+                 
                     string sqlAdmin = @"INSERT INTO PersonalAdministrativo (IDPersona, Cargo, Departamento, Salario) 
-                                        VALUES (@IDPer, @Car, @Dep, 0);";
+                                        VALUES (@IDPer, @Car, @Dep, @Sal);";
 
                     SqlCommand cmdAdmin = new SqlCommand(sqlAdmin, conn, transaction);
-                    cmdAdmin.Parameters.AddWithValue("@IDPer", idPersonaGenerado); // Usamos el ID del paso 1
+                    cmdAdmin.Parameters.AddWithValue("@IDPer", idPersonaGenerado);
                     cmdAdmin.Parameters.AddWithValue("@Car", cargo);
                     cmdAdmin.Parameters.AddWithValue("@Dep", departamento);
-                    cmdAdmin.ExecuteNonQuery();
+                    cmdAdmin.Parameters.AddWithValue("@Sal", salario); // TODO: aqui enviamos el dinero real
 
 
-                    // -----------------------------------------------------------------
-                    // PASO 3: INSERTAR EN "USUARIOS" (El Login)
-                    // -----------------------------------------------------------------
+                 
+                    // TODO:  crear el usuario y clave para el login
+             
                     string sqlUsuario = @"INSERT INTO Usuarios (NombreUsuario, Clave, NivelAcceso) 
                                           VALUES (@Usu, @Cla, 'Admin');";
 
@@ -61,18 +60,23 @@ namespace CapaDatos
                     cmdUsuario.Parameters.AddWithValue("@Cla", clave);
                     cmdUsuario.ExecuteNonQuery();
 
-                    // SI TODO SALIÓ BIEN, GUARDAMOS LOS CAMBIOS REALMENTE
+                    // TODO: si todo salio bien guardamos los cambios
                     transaction.Commit();
                 }
                 catch (Exception)
                 {
-                    // SI ALGO FALLA (ej. Cédula repetida), DESHACEMOS TODO
+                    // TODO: si algo fallo deshacemos todo
                     transaction.Rollback();
-                    throw; // Le avisamos al formulario que hubo error
+                    throw;
                 }
             }
         }
 
-        // (Aquí puedes agregar el método ValidarLogin más adelante)
+        
+        public bool Login(string usuario, string clave)
+        {
+           
+            return false;
+        }
     }
 }
