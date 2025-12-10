@@ -65,7 +65,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(277, 120);
+            label2.Location = new Point(247, 107);
             label2.Name = "label2";
             label2.Size = new Size(113, 23);
             label2.TabIndex = 1;
@@ -75,7 +75,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(305, 184);
+            label3.Location = new Point(259, 173);
             label3.Name = "label3";
             label3.Size = new Size(85, 23);
             label3.TabIndex = 2;
@@ -83,7 +83,7 @@
             // 
             // textUsuario
             // 
-            textUsuario.Location = new Point(418, 116);
+            textUsuario.Location = new Point(366, 103);
             textUsuario.Name = "textUsuario";
             textUsuario.PlaceholderText = "USUARIO";
             textUsuario.Size = new Size(232, 31);
@@ -91,7 +91,7 @@
             // 
             // textClave
             // 
-            textClave.Location = new Point(418, 184);
+            textClave.Location = new Point(366, 169);
             textClave.Name = "textClave";
             textClave.PlaceholderText = "contrasena";
             textClave.Size = new Size(232, 31);
@@ -102,7 +102,7 @@
             // 
             button1.FlatStyle = FlatStyle.System;
             button1.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.Location = new Point(277, 289);
+            button1.Location = new Point(259, 255);
             button1.Name = "button1";
             button1.Size = new Size(147, 34);
             button1.TabIndex = 5;
@@ -114,7 +114,7 @@
             // 
             button2.FlatStyle = FlatStyle.System;
             button2.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button2.Location = new Point(509, 289);
+            button2.Location = new Point(473, 255);
             button2.Name = "button2";
             button2.Size = new Size(141, 34);
             button2.TabIndex = 6;
@@ -134,7 +134,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(722, 368);
+            ClientSize = new Size(697, 368);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(textClave);
