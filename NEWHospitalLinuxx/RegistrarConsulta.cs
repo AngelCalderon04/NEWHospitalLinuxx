@@ -106,5 +106,10 @@ namespace CapaPresentacion
             txtTratamiento.Clear();
             txtObservaciones.Clear();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

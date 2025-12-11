@@ -25,9 +25,9 @@ namespace CapaDatos
                 {
                     int idPersonaGenerado = 0;
 
-                   
+
                     //TODO:  INSERTAR EN 'Personas'
-                    
+
                     string queryPersona = "INSERT INTO Personas (Nombre, Cedula, Telefono, Email, Rol, FechaRegistro) " +
                                           "VALUES (@Nombre, @Cedula, @Telefono, @Email, 'Enfermero', GETDATE()); " +
                                           "SELECT CAST(SCOPE_IDENTITY() AS INT);";
@@ -40,9 +40,9 @@ namespace CapaDatos
 
                     idPersonaGenerado = (int)cmdPersona.ExecuteScalar();
 
-                    
+
                     // TODO:  INSERTAR EN 'Enfermero'
-                   
+
                     string queryEnfermero = "INSERT INTO Enfermero (IDPersona, Turno, Area) " +
                                             "VALUES (@IDPersona, @Turno, @Area)";
 
@@ -53,9 +53,9 @@ namespace CapaDatos
 
                     cmdEnfermero.ExecuteNonQuery();
 
-         
+
                     // TODO:  INSERTAR EN 'Usuarios' (¡NUEVO!)
-                 
+
                     string queryUsuario = "INSERT INTO Usuarios (NombreUsuario, Clave, NivelAcceso) " +
                                           "VALUES (@User, @Pass, 'Enfermero')";
 
@@ -81,6 +81,31 @@ namespace CapaDatos
                     throw new Exception("Error al guardar enfermero: " + ex.Message);
                 }
             }
+        }
+
+        // Método nuevo para ver TODA la info del enfermero en el directorio
+        public DataTable ListarDirectorioEnfermeros()
+        {
+            DataTable tabla = new DataTable();
+            using (SqlConnection conn = conexion.ObtenerConexion())
+            {
+                conn.Open();
+                // OJO: No seleccionamos Clave ni Usuario por seguridad
+                string sql = @"
+                    SELECT 
+                        P.Nombre, 
+                        P.Cedula, 
+                        P.Telefono, 
+                        E.Turno, 
+                        E.Area
+                    FROM Enfermero E
+                    INNER JOIN Personas P ON E.IDPersona = P.IDPersona";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(tabla);
+            }
+            return tabla;
         }
     }
 }

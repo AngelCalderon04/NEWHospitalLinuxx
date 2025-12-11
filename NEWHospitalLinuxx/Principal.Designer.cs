@@ -40,6 +40,7 @@
             btnAgendarCita = new Button();
             btnRegistrarPaciente = new Button();
             pictureBox1 = new PictureBox();
+            button2 = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -79,6 +80,7 @@
             button1.TabIndex = 18;
             button1.Text = "AGREGAR PERSONAL";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // panel1
             // 
@@ -111,6 +113,7 @@
             btnRegistrarCONS.TabIndex = 16;
             btnRegistrarCONS.Text = "REGISTRAR CONSULTA";
             btnRegistrarCONS.UseVisualStyleBackColor = true;
+            btnRegistrarCONS.Click += btnRegistrarCONS_Click;
             // 
             // btnSalir
             // 
@@ -122,6 +125,7 @@
             btnSalir.TabIndex = 15;
             btnSalir.Text = "SALIR";
             btnSalir.UseVisualStyleBackColor = true;
+            btnSalir.Click += btnSalir_Click;
             // 
             // btnHistorial
             // 
@@ -133,6 +137,7 @@
             btnHistorial.TabIndex = 14;
             btnHistorial.Text = "HISTORIAL PACIENTE ";
             btnHistorial.UseVisualStyleBackColor = true;
+            btnHistorial.Click += btnHistorial_Click;
             // 
             // btnAgendarCita
             // 
@@ -144,6 +149,7 @@
             btnAgendarCita.TabIndex = 13;
             btnAgendarCita.Text = "AGENDAR CITA";
             btnAgendarCita.UseVisualStyleBackColor = true;
+            btnAgendarCita.Click += btnAgendarCita_Click;
             // 
             // btnRegistrarPaciente
             // 
@@ -166,12 +172,24 @@
             pictureBox1.TabIndex = 22;
             pictureBox1.TabStop = false;
             // 
+            // button2
+            // 
+            button2.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button2.Location = new Point(8, 358);
+            button2.Name = "button2";
+            button2.Size = new Size(244, 32);
+            button2.TabIndex = 23;
+            button2.Text = "BASE DATOS";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Principal
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(903, 525);
+            Controls.Add(button2);
             Controls.Add(dateTimePicker2);
             Controls.Add(dateTimePicker1);
             Controls.Add(label2);
@@ -206,5 +224,6 @@
         private Button btnAgendarCita;
         private Button btnRegistrarPaciente;
         private PictureBox pictureBox1;
+        private Button button2;
     }
 }

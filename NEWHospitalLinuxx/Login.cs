@@ -30,8 +30,8 @@ namespace NEWHospitalLinuxx
                     MessageBox.Show("¡Bienvenido al sistema!", "Acceso Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Abrir el Menu Principal
-                   // FormPrincipal menu = new FormPrincipal();
-                  //  menu.Show();
+                    // FormPrincipal menu = new FormPrincipal();
+                    //  menu.Show();
 
                     this.Hide(); // Ocultamos el login
                 }
@@ -46,6 +46,11 @@ namespace NEWHospitalLinuxx
             {
                 MessageBox.Show("Error de conexión: " + ex.Message);
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close(); 
         }
     }
 }

@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             flowLayoutPanel1 = new FlowLayoutPanel();
+            label3 = new Label();
             label2 = new Label();
             cboPaciente = new ComboBox();
             btnBuscar = new Button();
             btnSalir = new Button();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             dgvHistorial = new DataGridView();
-            label3 = new Label();
             flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvHistorial).BeginInit();
             SuspendLayout();
@@ -48,6 +48,17 @@
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(1116, 72);
             flowLayoutPanel1.TabIndex = 0;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Century", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(3, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(454, 47);
+            label3.TabIndex = 1;
+            label3.Text = "HISTORIAL MEDICO";
             // 
             // label2
             // 
@@ -86,6 +97,7 @@
             btnSalir.TabIndex = 4;
             btnSalir.Text = "SALIR";
             btnSalir.UseVisualStyleBackColor = true;
+            btnSalir.Click += btnSalir_Click_1;
             // 
             // sqlCommand1
             // 
@@ -100,17 +112,6 @@
             dgvHistorial.RowHeadersWidth = 62;
             dgvHistorial.Size = new Size(990, 434);
             dgvHistorial.TabIndex = 5;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Century", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(3, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(454, 47);
-            label3.TabIndex = 1;
-            label3.Text = "HISTORIAL MEDICO";
             // 
             // GestionHistorial
             // 
