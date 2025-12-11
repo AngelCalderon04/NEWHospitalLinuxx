@@ -108,5 +108,30 @@ namespace CapaDatos
             }
             return tabla;
         }
+
+        // TODO:  Método nuevo para ver TODA la info del doctor en el directorio
+        public DataTable ListarDirectorioDoctores()
+        {
+            DataTable tabla = new DataTable();
+            using (SqlConnection conn = conexion.ObtenerConexion())
+            {
+                conn.Open();
+                string sql = @"
+            SELECT 
+                P.Nombre, 
+                P.Cedula, 
+                P.Telefono, 
+                P.Email, 
+                D.Especialidad, 
+                D.Exequatur, 
+                D.TarifaConsulta AS Tarifa
+            FROM Doctor D
+            INNER JOIN Personas P ON D.IDPersona = P.IDPersona";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(tabla);
+            }
+            return tabla;
+        }
     }
 }
