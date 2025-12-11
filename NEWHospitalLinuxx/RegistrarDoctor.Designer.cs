@@ -132,6 +132,7 @@
             txtNombre.PlaceholderText = "Nombre Completo ";
             txtNombre.Size = new Size(232, 31);
             txtNombre.TabIndex = 7;
+            txtNombre.KeyPress += txtNombre_KeyPress;
             // 
             // txtExequatur
             // 
@@ -140,6 +141,7 @@
             txtExequatur.PlaceholderText = "Exequatur";
             txtExequatur.Size = new Size(232, 31);
             txtExequatur.TabIndex = 8;
+            txtExequatur.KeyPress += txtSoloNumeros_KeyPress;
             // 
             // txtTarifa
             // 
@@ -148,6 +150,7 @@
             txtTarifa.PlaceholderText = "Tarifa";
             txtTarifa.Size = new Size(232, 31);
             txtTarifa.TabIndex = 9;
+            txtTarifa.KeyPress += txtSoloNumeros_KeyPress;
             // 
             // txtCedula
             // 
@@ -156,6 +159,7 @@
             txtCedula.PlaceholderText = "cedula";
             txtCedula.Size = new Size(238, 31);
             txtCedula.TabIndex = 10;
+            txtCedula.KeyPress += txtSoloNumeros_KeyPress;
             // 
             // txtUsuario
             // 
@@ -253,6 +257,7 @@
             txtTelefono.PlaceholderText = "Telefono";
             txtTelefono.Size = new Size(238, 31);
             txtTelefono.TabIndex = 19;
+            txtTelefono.KeyPress += txtSoloNumeros_KeyPress;
             // 
             // txtEmail
             // 

@@ -115,6 +115,7 @@
             textcedula.PlaceholderText = "Cedula";
             textcedula.Size = new Size(245, 31);
             textcedula.TabIndex = 28;
+            textcedula.KeyPress += textcedula_KeyPress;
             // 
             // label6
             // 
@@ -204,6 +205,7 @@
             txtNombre.PlaceholderText = "Nombre Completo";
             txtNombre.Size = new Size(245, 31);
             txtNombre.TabIndex = 19;
+            txtNombre.KeyPress += txtNombre_KeyPress;
             // 
             // cboArea
             // 

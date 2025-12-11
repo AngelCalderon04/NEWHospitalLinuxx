@@ -175,7 +175,7 @@
             // button2
             // 
             button2.Font = new Font("Century", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button2.Location = new Point(8, 358);
+            button2.Location = new Point(9, 381);
             button2.Name = "button2";
             button2.Size = new Size(244, 32);
             button2.TabIndex = 23;

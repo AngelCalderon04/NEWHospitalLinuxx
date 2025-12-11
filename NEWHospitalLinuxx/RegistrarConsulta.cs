@@ -68,6 +68,26 @@ namespace CapaPresentacion
                 return;
             }
 
+            string Diagnostico = txtDiagnostico.Text.Trim();
+            if (string.IsNullOrEmpty(Diagnostico))
+            {
+                MessageBox.Show("Debe ingresar el Diagnostico de la consulta.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string observacioness = lblObservaciones.Text.Trim();
+            if (string.IsNullOrEmpty(observacioness))
+            {
+                MessageBox.Show("Debe ingresar las Observaciones de la consulta.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string Tratamiento = lblTratamiento.Text.Trim();
+            if (string.IsNullOrEmpty(Tratamiento))
+            {
+                MessageBox.Show("Debe ingresar el tratamiento de la consulta.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             // Obtener datos
             // Usamos Try-Catch para evitar que el programa se cierre si el ID no es válido
             try
@@ -110,6 +130,11 @@ namespace CapaPresentacion
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtMotivo_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

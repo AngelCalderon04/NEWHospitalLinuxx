@@ -1,4 +1,5 @@
 using CapaDatos;
+using CapaPresentacion;
 
 namespace NEWHospitalLinuxx
 {
@@ -30,8 +31,8 @@ namespace NEWHospitalLinuxx
                     MessageBox.Show("¡Bienvenido al sistema!", "Acceso Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Abrir el Menu Principal
-                    // FormPrincipal menu = new FormPrincipal();
-                    //  menu.Show();
+                    Principal menu = new Principal();
+                     menu.Show();
 
                     this.Hide(); // Ocultamos el login
                 }

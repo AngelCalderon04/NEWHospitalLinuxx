@@ -136,6 +136,7 @@
             txtMotivo.PlaceholderText = "MOTIVO CONSULTA ";
             txtMotivo.Size = new Size(371, 110);
             txtMotivo.TabIndex = 25;
+            txtMotivo.TextChanged += txtMotivo_TextChanged;
             // 
             // lblObservaciones
             // 

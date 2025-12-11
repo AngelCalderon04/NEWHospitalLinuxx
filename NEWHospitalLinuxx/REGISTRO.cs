@@ -31,7 +31,7 @@ namespace CapaPresentacion
 
         private void button3_Click(object sender, EventArgs e)
         {
-            formPersonalAdministrativo form = new formPersonalAdministrativo();
+            FormPersonalAdministrativo form = new FormPersonalAdministrativo();
             form.ShowDialog();
 
         }
