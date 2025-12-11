@@ -24,7 +24,7 @@ namespace CapaDatos
                 {
                     int idPersonaGenerado = 0;
 
-                    //INSERTAR EN PERSONA
+                    // TODO:INSERTAR EN PERSONA
                     string queryPersona = "INSERT INTO Personas (Nombre, Cedula, Telefono, Email, Rol) " +
                                           "VALUES (@Nombre, @Cedula, @Telefono, @Email, 'Paciente'); " +
                                           "SELECT CAST(SCOPE_IDENTITY() AS INT);";
@@ -37,7 +37,7 @@ namespace CapaDatos
 
                     idPersonaGenerado = (int)cmdPersona.ExecuteScalar();
 
-                    //INSERTAR TABLA PACIENTE 
+                    //TODO: INSERTAR TABLA PACIENTE 
                     string queryPaciente = "INSERT INTO Paciente (IDPersona, FechaNacimiento, GrupoSanguineo, Alergias, NumeroSeguro, ContactoEmergencia, Peso, Altura) " +
                                            "VALUES (@IDPersona, @FechaNacimiento, @GrupoSanguineo, @Alergias, @NumeroSeguro, @ContactoEmergencia, @Peso, @Altura)";
 
@@ -59,7 +59,7 @@ namespace CapaDatos
                 {
                     transaction.Rollback(); // Deshacemos todo si falla
 
-                    // Error 2627 es "Clave duplicada" (Cédula repetida)
+                    // TODO Error 2627 es "Clave duplicada" (Cédula repetida)
                     if (sqlEx.Number == 2627 || sqlEx.Number == 2601)
                     {
                         throw new Exception("Error: Ya existe un paciente registrado con esa Cédula.");

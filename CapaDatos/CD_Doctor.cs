@@ -8,11 +8,10 @@ namespace CapaDatos
     {
         private ConexionDatos conexion = new ConexionDatos();
 
-        // Método para guardar TODO de un solo golpe (Transacción)
-        public void RegistrarDoctor(
-            string nombre, string cedula, string telefono, string email, // Datos Persona
-            string especialidad, string exequatur, decimal tarifa,       // Datos Doctor (Tus parámetros)
-            string usuario, string clave)                                // Datos Usuario
+        // TODO: metodo que recibe todos los datos del doctor mas usuario y clave
+        public void RegistrarDoctor(string nombre, string cedula, string telefono, string email,
+                                    string especialidad, string exequatur, decimal tarifa,
+                                    string usuario, string clave)
         {
             using (SqlConnection conn = conexion.ObtenerConexion())
             {
@@ -21,62 +20,93 @@ namespace CapaDatos
 
                 try
                 {
-                    int idPersonaGenerado = 0;
+                    
+                    // TODO: insertar en personas para obtener el id
+                   
+                    string sqlPersona = @"INSERT INTO Personas (Nombre, Cedula, Telefono, Email, Rol) 
+                                          VALUES (@Nom, @Ced, @Tel, @Email, 'Doctor'); 
+                                          SELECT SCOPE_IDENTITY();";
 
-                    // ---------------------------------------------------
-                    // PASO 1: INSERTAR EN 'Personas'
-                    // ---------------------------------------------------
-                    // Nota: Si tu tabla Personas NO permite vacíos en Cédula,
-                    // asegúrate de enviar datos reales o permitir NULL en la BD.
-                    string queryPersona = "INSERT INTO Personas (Nombre, Cedula, Telefono, Email, Rol, FechaRegistro) " +
-                                          "VALUES (@Nombre, @Cedula, @Telefono, @Email, 'Doctor', GETDATE()); " +
-                                          "SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                    SqlCommand cmdPer = new SqlCommand(sqlPersona, conn, transaction);
+                    cmdPer.Parameters.AddWithValue("@Nom", nombre);
+                    cmdPer.Parameters.AddWithValue("@Ced", cedula);
+                    cmdPer.Parameters.AddWithValue("@Tel", telefono);
+                    cmdPer.Parameters.AddWithValue("@Email", email);
 
-                    SqlCommand cmdPersona = new SqlCommand(queryPersona, conn, transaction);
-                    cmdPersona.Parameters.AddWithValue("@Nombre", nombre);
-                    cmdPersona.Parameters.AddWithValue("@Cedula", cedula);
-                    cmdPersona.Parameters.AddWithValue("@Telefono", telefono);
-                    cmdPersona.Parameters.AddWithValue("@Email", email ?? (object)DBNull.Value);
+                    // TODO: guardamos el id generado
+                    int idPersona = Convert.ToInt32(cmdPer.ExecuteScalar());
 
-                    idPersonaGenerado = (int)cmdPersona.ExecuteScalar(); // Recuperamos el ID creado
+                   
+                    // TODO: insertar en la tabla doctor
+              
+                    string sqlDoc = @"INSERT INTO Doctor (IDPersona, Especialidad, Exequatur, TarifaConsulta) 
+                                      VALUES (@IDPer, @Esp, @Exe, @Tar);";
 
-                    // ---------------------------------------------------
-                    // PASO 2: INSERTAR EN 'Doctor' (Con tus parámetros exactos)
-                    // ---------------------------------------------------
-                    string queryDoctor = @"INSERT INTO Doctor 
-                                          (IDPersona, Especialidad, Exequatur, TarifaConsulta) 
-                                          VALUES 
-                                          (@IDPersona, @Especialidad, @Exequatur, @Tarifa)";
+                    SqlCommand cmdDoc = new SqlCommand(sqlDoc, conn, transaction);
+                    cmdDoc.Parameters.AddWithValue("@IDPer", idPersona);
+                    cmdDoc.Parameters.AddWithValue("@Esp", especialidad);
+                    cmdDoc.Parameters.AddWithValue("@Exe", exequatur);
+                    cmdDoc.Parameters.AddWithValue("@Tar", tarifa);
 
-                    SqlCommand cmdDoctor = new SqlCommand(queryDoctor, conn, transaction);
-                    cmdDoctor.Parameters.AddWithValue("@IDPersona", idPersonaGenerado); // FK_Doctor_Persona
-                    cmdDoctor.Parameters.AddWithValue("@Especialidad", especialidad);   // NVARCHAR(100)
-                    cmdDoctor.Parameters.AddWithValue("@Exequatur", exequatur);         // NVARCHAR(100)
-                    cmdDoctor.Parameters.AddWithValue("@Tarifa", tarifa);               // DECIMAL(10,2)
+                    cmdDoc.ExecuteNonQuery();
 
-                    cmdDoctor.ExecuteNonQuery();
+                    // TODO:  crear el usuario (esto faltaba)
+                 
+                    string sqlUsuario = @"INSERT INTO Usuarios (NombreUsuario, Clave, NivelAcceso) 
+                                          VALUES (@User, @Pass, 'Doctor');";
 
-                    // ---------------------------------------------------
-                    // PASO 3: INSERTAR EN 'Usuarios'
-                    // ---------------------------------------------------
-                    string queryUsuario = "INSERT INTO Usuarios (NombreUsuario, Clave, NivelAcceso) " +
-                                          "VALUES (@User, @Pass, 'Doctor')";
+                    SqlCommand cmdUsu = new SqlCommand(sqlUsuario, conn, transaction);
+                    cmdUsu.Parameters.AddWithValue("@User", usuario);
+                    cmdUsu.Parameters.AddWithValue("@Pass", clave);
+                    cmdUsu.ExecuteNonQuery();
 
-                    SqlCommand cmdUsuario = new SqlCommand(queryUsuario, conn, transaction);
-                    cmdUsuario.Parameters.AddWithValue("@User", usuario);
-                    cmdUsuario.Parameters.AddWithValue("@Pass", clave);
-                    cmdUsuario.ExecuteNonQuery();
-
-                    // Confirmar todo
+                    // TODO: guardar cambios
                     transaction.Commit();
+                }
+                catch (SqlException sqlEx)
+                {
+                    // TODO: deshacer cambios si falla
+                    transaction.Rollback();
+
+                    // TODO: verificar si es error de duplicado (cedula o usuario repetido)
+                    if (sqlEx.Number == 2627 || sqlEx.Number == 2601)
+                    {
+                        throw new Exception("Error: La cedula o el usuario ya existen.");
+                    }
+                    else
+                    {
+                        throw new Exception("Error SQL: " + sqlEx.Message);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    // Si falla algo, deshacemos todo
                     transaction.Rollback();
-                    throw new Exception("Error al registrar doctor: " + ex.Message);
+                    throw new Exception("Error al guardar: " + ex.Message);
                 }
             }
+        }
+
+        // TODO: metodo nuevo necesario para llenar el combo de citas
+        public DataTable ListarDoctoresParaCombo()
+        {
+            DataTable tabla = new DataTable();
+            using (SqlConnection conn = conexion.ObtenerConexion())
+            {
+                try
+                {
+                    conn.Open();
+                    // AGREGAMOS 'D.TarifaConsulta' AQUI:
+                    string sql = "SELECT D.IDDoctor, P.Nombre, D.TarifaConsulta FROM Doctor D INNER JOIN Personas P ON D.IDPersona = P.IDPersona";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(tabla);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al listar doctores: " + ex.Message);
+                }
+            }
+            return tabla;
         }
     }
 }

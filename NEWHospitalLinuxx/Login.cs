@@ -20,7 +20,7 @@ namespace NEWHospitalLinuxx
 
             try
             {
-                // TODO Llamar a CapaDatos
+                // TODO: Llamar a CapaDatos
                 CD_Usuario objetoUsuario = new CD_Usuario();
 
                 bool accesoCorrecto = objetoUsuario.Login(textUsuario.Text, textClave.Text);
@@ -29,7 +29,7 @@ namespace NEWHospitalLinuxx
                 {
                     MessageBox.Show("¡Bienvenido al sistema!", "Acceso Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // 3. Abrir el Menu Principal
+                    // Abrir el Menu Principal
                    // FormPrincipal menu = new FormPrincipal();
                   //  menu.Show();
 
