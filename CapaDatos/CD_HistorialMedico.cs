@@ -8,106 +8,68 @@ namespace CapaDatos
     {
         private ConexionDatos conexion = new ConexionDatos();
 
-        //METODO PARA INSERTAR NUEVA CONSULTA
-        public void RegistrarConsulta(int idPaciente, int idDoctor, string sintomas,
-                                      string diagnostico, string tratamiento, string observaciones)
+        // Método solo para LEER (Reporte Completo)
+        public DataTable ListarHistorialDetallado()
         {
+            DataTable tabla = new DataTable();
             using (SqlConnection conn = conexion.ObtenerConexion())
             {
                 conn.Open();
-                try
-                {
-                    string sql = "INSERT INTO HistorialMedico (IDPaciente, IDDoctor, FechaConsulta, Sintomas, Diagnostico, Tratamiento, Observaciones) " +
-                                 "VALUES (@IDPaciente, @IDDoctor, GETDATE(), @Sintomas, @Diagnostico, @Tratamiento, @Observaciones)";
+                // SQL: Unimos todo para tener la ficha completa
+                string sql = @"
+                    SELECT 
+                        H.IDHistorialMED,
+                        
+                        -- DATOS PERSONALES
+                        PerPac.Nombre AS Paciente,
+                        PerPac.Cedula AS Cedula,
+                        
+                        -- DATOS MEDICOS DEL PACIENTE (NUEVO)
+                        P.GrupoSanguineo AS Sangre,
+                        P.NumeroSeguro AS Seguro,
+                        P.Peso AS Peso,
+                        P.Altura AS Altura,
 
-                    SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@IDPaciente", idPaciente);
-                    cmd.Parameters.AddWithValue("@IDDoctor", idDoctor);
+                        -- DATOS DE LA CONSULTA
+                        H.FechaConsulta AS Fecha,
+                        PerDoc.Nombre AS Doctor,
+                        H.Diagnostico,
+                        H.Tratamiento,
+                        H.Observaciones,
+                        
+                        -- IDs OCULTOS
+                        H.IDPaciente
+                    FROM HistorialMedico H
+                    INNER JOIN Paciente P ON H.IDPaciente = P.IDPaciente
+                    INNER JOIN Personas PerPac ON P.IDPersona = PerPac.IDPersona
+                    INNER JOIN Doctor D ON H.IDDoctor = D.IDDoctor
+                    INNER JOIN Personas PerDoc ON D.IDPersona = PerDoc.IDPersona
+                    ORDER BY H.FechaConsulta DESC";
 
-                    // Manejo de nulos si envías null, se guarda DBNull
-                    cmd.Parameters.AddWithValue("@Sintomas", sintomas ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Diagnostico", diagnostico ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Tratamiento", tratamiento ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Observaciones", observaciones ?? (object)DBNull.Value);
-
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error al guardar historial: " + ex.Message);
-                }
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(tabla);
             }
+            return tabla;
         }
 
-        // METODO PARA ACTUALIZAR EDITAR UNA CONSULTA EXISTENTE
-        public void ActualizarConsulta(int idHistorial, string sintomas,
-                                       string diagnostico, string tratamiento, string observaciones)
+        // Mantengo el método de registrar por si lo usas en otro lado, 
+        // pero este form solo usará el de Listar.
+        public void RegistrarHistorial(int idPaciente, int idDoctor, string sintomas, string diagnostico, string tratamiento, string observaciones)
         {
             using (SqlConnection conn = conexion.ObtenerConexion())
             {
                 conn.Open();
-                try
-                {
-                    string sql = "UPDATE HistorialMedico SET " +
-                                 "Sintomas = @Sintomas, " +
-                                 "Diagnostico = @Diagnostico, " +
-                                 "Tratamiento = @Tratamiento, " +
-                                 "Observaciones = @Observaciones " +
-                                 "WHERE IDHistorialMED = @IDHistorial";
-
-                    SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@IDHistorial", idHistorial);
-                    cmd.Parameters.AddWithValue("@Sintomas", sintomas ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Diagnostico", diagnostico ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Tratamiento", tratamiento ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Observaciones", observaciones ?? (object)DBNull.Value);
-
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error al actualizar historial: " + ex.Message);
-                }
+                string query = "INSERT INTO HistorialMedico (IDPaciente, IDDoctor, FechaConsulta, Sintomas, Diagnostico, Tratamiento, Observaciones) VALUES (@IdPac, @IdDoc, GETDATE(), @Sintomas, @Diag, @Trata, @Obs)";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@IdPac", idPaciente);
+                cmd.Parameters.AddWithValue("@IdDoc", idDoctor);
+                cmd.Parameters.AddWithValue("@Sintomas", sintomas);
+                cmd.Parameters.AddWithValue("@Diag", diagnostico);
+                cmd.Parameters.AddWithValue("@Trata", tratamiento);
+                cmd.Parameters.AddWithValue("@Obs", observaciones ?? (object)DBNull.Value);
+                cmd.ExecuteNonQuery();
             }
-        }
-
-        // METODO PARA LEER (LLENAR DATAGRIDVIEW)
-
-        public DataTable ObtenerHistorialPorPaciente(int idPaciente)
-        {
-            DataTable dt = new DataTable();
-            using (SqlConnection conn = conexion.ObtenerConexion())
-            {
-                conn.Open();
-                try
-                {
-                    string sql = @"SELECT 
-                                     H.IDHistorialMED, -- Importante traer el ID por si queremos editar luego
-                                     H.FechaConsulta AS 'Fecha', 
-                                     H.Sintomas, 
-                                     H.Diagnostico, 
-                                     H.Tratamiento, 
-                                     H.Observaciones,
-                                     Per.Nombre AS 'Doctor'
-                                   FROM HistorialMedico H
-                                   INNER JOIN Doctor D ON H.IDDoctor = D.IDDoctor
-                                   INNER JOIN Personas Per ON D.IDPersona = Per.IDpersona
-                                   WHERE H.IDPaciente = @IDPaciente
-                                   ORDER BY H.FechaConsulta DESC";
-
-                    SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@IDPaciente", idPaciente);
-
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    da.Fill(dt);
-                }
-                catch (Exception ex)
-                {
-
-                    throw new Exception("Error al leer historial: " + ex.Message);
-                }
-            }
-            return dt;
         }
     }
 }

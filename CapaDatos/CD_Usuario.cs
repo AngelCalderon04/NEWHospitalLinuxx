@@ -8,7 +8,7 @@ namespace CapaDatos
     {
         private ConexionDatos conexion = new ConexionDatos();
 
-        // Metodo para validar si el usuario existe
+        // TODO:Metodo para validar si el usuario existe
         public bool Login(string usuario, string clave)
         {
             using (SqlConnection conn = conexion.ObtenerConexion())
@@ -22,7 +22,7 @@ namespace CapaDatos
 
                 int resultado = (int)cmd.ExecuteScalar();
 
-                // Si resultado es mayor a 0, es que encontró al usuario
+                // TODO: Si resultado es mayor a 0, es que encontro al usuario
                 return resultado > 0;
             }
         }
