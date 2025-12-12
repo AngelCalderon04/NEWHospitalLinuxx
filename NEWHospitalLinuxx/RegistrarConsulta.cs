@@ -1,7 +1,8 @@
-﻿using System;
+﻿using CapaDatos;
+using System;
 using System.Data;
 using System.Windows.Forms;
-using CapaDatos;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CapaPresentacion
 {
@@ -16,30 +17,45 @@ namespace CapaPresentacion
         {
             InitializeComponent();
 
+            progressBar1.Visible = false; // Ocultar al iniciar
+
             // 2. CONECTAR EL EVENTO LOAD MANUALMENTE
-            // Esto asegura que los datos carguen al abrir la ventana
             this.Load += new EventHandler(RegistrarConsulta_Load);
         }
 
-        // 3. EVENTO QUE SE EJECUTA AL ABRIR EL FORMULARIO
+        // MÉTODO ASÍNCRONO PARA 3 SEGUNDOS
+        private async Task BarraDeCargaAsync()
+        {
+            progressBar1.Visible = true;
+            progressBar1.Value = 0;
+            progressBar1.Maximum = 100;
+
+            for (int i = 0; i <= 100; i++)
+            {
+                progressBar1.Value = i;
+                await Task.Delay(30); // 30ms * 100 = 3 segundos
+            }
+
+            progressBar1.Visible = false;
+        }
+
+        // EVENTO LOAD
         private void RegistrarConsulta_Load(object sender, EventArgs e)
         {
             CargarCombos();
         }
 
-        // 4. MÉTODO PARA LLENAR LAS LISTAS
+        // MÉTODO CARGAR COMBOS
         private void CargarCombos()
         {
             try
             {
-                // Cargar Pacientes
                 DataTable dtPac = cdPaciente.Listar();
                 cboPaciente.DataSource = dtPac;
-                cboPaciente.DisplayMember = "Nombre";       // Lo que se ve
-                cboPaciente.ValueMember = "IDPaciente";     // El valor oculto (ID)
-                cboPaciente.SelectedIndex = -1;             // Iniciar vacío
+                cboPaciente.DisplayMember = "Nombre";
+                cboPaciente.ValueMember = "IDPaciente";
+                cboPaciente.SelectedIndex = -1;
 
-                // Cargar Doctores
                 DataTable dtDoc = cdDoctor.ListarDoctoresParaCombo();
                 cboDoctor.DataSource = dtDoc;
                 cboDoctor.DisplayMember = "Nombre";
@@ -52,7 +68,7 @@ namespace CapaPresentacion
             }
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)
+        private async void btnGuardar_Click(object sender, EventArgs e)
         {
             // Validaciones
             if (cboPaciente.SelectedIndex == -1 || cboDoctor.SelectedIndex == -1)
@@ -88,21 +104,23 @@ namespace CapaPresentacion
                 MessageBox.Show("Debe ingresar el tratamiento de la consulta.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            // Obtener datos
-            // Usamos Try-Catch para evitar que el programa se cierre si el ID no es válido
+
             try
             {
+                // ===== APLICAR BARRA DE CARGA DE 3 SEGUNDOS =====
+                await BarraDeCargaAsync();
+                // =================================================
+
                 int idPaciente = Convert.ToInt32(cboPaciente.SelectedValue);
                 int idDoctor = Convert.ToInt32(cboDoctor.SelectedValue);
                 string diagnostico = txtDiagnostico.Text.Trim();
                 string tratamiento = txtTratamiento.Text.Trim();
                 string observaciones = txtObservaciones.Text.Trim();
 
-                // Llama a la capa de datos (CORREGIDO: RegistrarHistorial)
                 cdHistorial.RegistrarHistorial(
                     idPaciente,
                     idDoctor,
-                    motivo,       // Se envía como 'síntomas' o motivo
+                    motivo,
                     diagnostico,
                     tratamiento,
                     observaciones
@@ -133,6 +151,11 @@ namespace CapaPresentacion
         }
 
         private void txtMotivo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
         {
 
         }

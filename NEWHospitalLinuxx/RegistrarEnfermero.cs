@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using CapaDatos;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CapaDatos; 
 
 namespace CapaPresentacion
 {
@@ -16,26 +10,35 @@ namespace CapaPresentacion
         public RegistrarEnfermero()
         {
             InitializeComponent();
+            progressBar1.Visible = false; // Ocultar al iniciar
         }
 
+        // BARRA DE CARGA (3s aprox.)
+        private async Task BarraDeCargaAsync()
+        {
+            progressBar1.Visible = true;
+            progressBar1.Value = 0;
+            progressBar1.Maximum = 100;
+
+            for (int i = 0; i <= 100; i++)
+            {
+                progressBar1.Value = i;
+                await Task.Delay(30);
+            }
+
+            progressBar1.Visible = false;
+        }
+
+        // Evento Load (coincide con el Designer)
         private void RegistrarEnfermero_Load(object sender, EventArgs e)
         {
-
+            // Si quieres inicializar cosas al cargar, aquí.
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        // BOTÓN GUARDAR (coincide con Designer: button1)
+        private async void button1_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void RegistrarEnfermero_Load_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            // TODO: VALIDACION DE CAMPOS OBLIGATORIOS
+            // Validaciones
             if (string.IsNullOrWhiteSpace(txtNombre.Text) ||
                 string.IsNullOrWhiteSpace(textcedula.Text) ||
                 string.IsNullOrWhiteSpace(cboTurno.Text) ||
@@ -49,22 +52,24 @@ namespace CapaPresentacion
 
             try
             {
-                //TODO: GUARDAR
-                CD_Enfermero objetoEnfermero = new CD_Enfermero();
+                // Mostrar progreso antes de guardar
+                await BarraDeCargaAsync();
 
+                // Guardar
+                CD_Enfermero objetoEnfermero = new CD_Enfermero();
                 objetoEnfermero.RegistrarEnfermero(
                     txtNombre.Text.Trim(),
                     textcedula.Text.Trim(),
-                    "", // Telefono 
-                    "", // Email 
-                    cboTurno.Text,     // Turno (Del ComboBox)
-                    cboArea.Text.Trim(),   // Área
-                    textusuario.Text.Trim(), // Usuario para Login
-                    textclave.Text.Trim()    // Clave para Login
+                    "", // telefono
+                    "", // email
+                    cboTurno.Text,
+                    cboArea.Text.Trim(),
+                    textusuario.Text.Trim(),
+                    textclave.Text.Trim()
                 );
 
-                MessageBox.Show("¡Enfermero y Usuario registrados con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                MessageBox.Show("¡Enfermero registrado correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Limpiar();
             }
             catch (Exception ex)
             {
@@ -72,35 +77,41 @@ namespace CapaPresentacion
             }
         }
 
+        // BOTÓN SALIR (coincide con Designer: button2)
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-     
+        // LIMPIAR
+        private void Limpiar()
+        {
+            txtNombre.Clear();
+            textcedula.Clear();
+            textusuario.Clear();
+            textclave.Clear();
+            cboTurno.SelectedIndex = -1;
+            cboArea.SelectedIndex = -1;
+            txtNombre.Focus();
+        }
 
-    
-        // TODO: CAPTURADORES DE ERRORES Permite solo letras y espacios en el campo de Nombre
-        
+        // VALIDACIONES KeyPress (nombres coinciden con Designer)
         private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite letras
             if (!(char.IsLetter(e.KeyChar) || e.KeyChar == (char)Keys.Space) && e.KeyChar != (char)Keys.Back)
             {
                 e.Handled = true;
-                MessageBox.Show("Solo se permiten letras en el nombre.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                // Sin MessageBox en cada pulsación para no molestar; descomenta si prefieres aviso
+                // MessageBox.Show("Solo se permiten letras.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
-        //TODO: Permite solo números en el campo de Cédula
-       
         private void textcedula_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //TODO:  Permite solo dígitos  numericos 
-            if (!(char.IsDigit(e.KeyChar)) && e.KeyChar != (char)Keys.Back)
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
             {
                 e.Handled = true;
-                MessageBox.Show("Solo se permiten números en la cédula.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                // MessageBox.Show("Solo se permiten números.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
     }
