@@ -6,7 +6,7 @@ namespace CapaDatos
 {
     public class ConexionDatos
     {
-        // TODO: Cadena de conexio a la base de datos HospitalLinux
+        // TODO: Cadena de conexio a la base de datos HospitalLinuxx
         private string cadenaConexion = "Server=.;Database=HospitalLinux;Integrated Security=True;TrustServerCertificate=True;";
 
         public SqlConnection ObtenerConexion()
