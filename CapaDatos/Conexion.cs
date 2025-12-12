@@ -6,8 +6,8 @@ namespace CapaDatos
 {
     public class ConexionDatos
     {
-        // TODO: Cadena de conexio a la base de datos HospitalLinux
-        private string cadenaConexion = "Server=.;Database=HospitalLinux;Integrated Security=True;TrustServerCertificate=True;";
+        
+        private string cadenaConexion = "Server=(localdb)\\MSSQLLocalDB;Database=HospitalLinux;Integrated Security=True;TrustServerCertificate=True;";
 
         public SqlConnection ObtenerConexion()
         {
@@ -15,4 +15,3 @@ namespace CapaDatos
         }
     }
 }
-
